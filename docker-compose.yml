@@ -1,0 +1,14 @@
+version: '3.9'
+
+services:
+  database:
+    image: 'mysql:8.2.0'
+    ports:
+      - 3306:3306
+    expose:
+      - 3306
+    env_file: .env
+    volumes:
+      - issue-tracker:/data/db
+volumes:
+  issue-tracker:
