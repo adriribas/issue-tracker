@@ -11,6 +11,7 @@ import axios from 'axios';
 import 'easymde/dist/easymde.min.css';
 
 import { createIssueSchema } from '@/app/validationSchemas';
+import ErrorMessage from '@/app/components/ErrorMessage';
 
 type IssueForm = z.infer<typeof createIssueSchema>;
 
@@ -47,11 +48,7 @@ const NewIssuePage: React.FC = () => {
         <TextField.Root>
           <TextField.Input {...register('title')} placeholder='Title' />
         </TextField.Root>
-        {errors.title ? (
-          <Text as='p' color='red'>
-            {errors.title.message}
-          </Text>
-        ) : null}
+        <ErrorMessage>{errors.title?.message}</ErrorMessage>
 
         <Controller
           name='description'
@@ -60,11 +57,7 @@ const NewIssuePage: React.FC = () => {
             <SimpleMdeReact {...field} placeholder='Description' />
           )}
         />
-        {errors.description ? (
-          <Text as='p' color='red'>
-            {errors.description.message}
-          </Text>
-        ) : null}
+        <ErrorMessage>{errors.description?.message}</ErrorMessage>
 
         <Button type='submit'>Submit New Issue</Button>
       </form>
