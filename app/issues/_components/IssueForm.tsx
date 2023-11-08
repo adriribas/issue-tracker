@@ -1,9 +1,9 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import dynamic from 'next/dynamic';
 import { useState } from 'react';
 import { Button, TextField, Callout } from '@radix-ui/themes';
-import SimpleMdeReact from 'react-simplemde-editor';
 import { useForm, Controller, type SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -13,6 +13,10 @@ import 'easymde/dist/easymde.min.css';
 
 import { issueSchema } from '@/app/validationSchemas';
 import { ErrorMessage, Spinner } from '@/app/components';
+
+const SimpleMDE = dynamic(() => import('react-simplemde-editor'), {
+  ssr: false,
+});
 
 type IssueFormData = z.infer<typeof issueSchema>;
 
@@ -71,7 +75,7 @@ const IssueForm: React.FC<Props> = ({ issue }) => {
           control={control}
           defaultValue={issue?.description}
           render={({ field }) => (
-            <SimpleMdeReact {...field} placeholder='Description' />
+            <SimpleMDE {...field} placeholder='Description' />
           )}
         />
         <ErrorMessage>{errors.description?.message}</ErrorMessage>
