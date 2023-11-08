@@ -46,6 +46,7 @@ const IssueForm: React.FC<Props> = ({ issue }) => {
         await axios.post('/api/issues', data);
       }
       router.push('/issues');
+      router.refresh();
     } catch (e) {
       setError('An unexpected error occurred.');
       setIsSubmitting(false);
@@ -80,7 +81,7 @@ const IssueForm: React.FC<Props> = ({ issue }) => {
         />
         <ErrorMessage>{errors.description?.message}</ErrorMessage>
 
-        <Button disabled={isSubmitting} type='submit'>
+        <Button disabled={isSubmitting}>
           {issue ? 'Update Issue' : 'Submit New Issue'}{' '}
           {isSubmitting ? <Spinner /> : null}
         </Button>

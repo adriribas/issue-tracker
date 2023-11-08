@@ -48,4 +48,6 @@ const IssuesPage: React.FC = async () => {
   );
 };
 
+export const dynamic = 'force-dynamic';
+
 export default IssuesPage;
