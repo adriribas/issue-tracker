@@ -4,8 +4,9 @@ import { useState, type MouseEventHandler } from 'react';
 import { useRouter } from 'next/navigation';
 import type { Issue } from '@prisma/client';
 import { AlertDialog, Button, Flex } from '@radix-ui/themes';
-import { TrashIcon } from '@radix-ui/react-icons';
 import axios from 'axios';
+
+import { Spinner } from '@/app/components';
 
 type Props = {
   issueId: Issue['id'];
@@ -13,15 +14,17 @@ type Props = {
 
 const DeleteIssueButton: React.FC<Props> = ({ issueId }) => {
   const [error, setError] = useState(false);
-
+  const [isDeleting, setIsDeleting] = useState(false);
   const router = useRouter();
 
   const handleClick: MouseEventHandler<HTMLButtonElement> = async () => {
     try {
+      setIsDeleting(true);
       await axios.delete(`/api/issues/${issueId}`);
       router.push('/issues');
       router.refresh();
     } catch (e) {
+      setIsDeleting(false);
       setError(true);
     }
   };
@@ -30,9 +33,9 @@ const DeleteIssueButton: React.FC<Props> = ({ issueId }) => {
     <>
       <AlertDialog.Root>
         <AlertDialog.Trigger>
-          <Button color='red'>
-            <TrashIcon />
+          <Button disabled={isDeleting} color='red'>
             Delete Issue
+            {isDeleting ? <Spinner /> : null}
           </Button>
         </AlertDialog.Trigger>
 
