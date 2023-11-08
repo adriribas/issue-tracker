@@ -11,8 +11,7 @@ import axios from 'axios';
 import 'easymde/dist/easymde.min.css';
 
 import { createIssueSchema } from '@/app/validationSchemas';
-import ErrorMessage from '@/app/components/ErrorMessage';
-import Spinner from '@/app/components/Spinner';
+import { ErrorMessage, Spinner } from '@/app/components';
 
 type IssueForm = z.infer<typeof createIssueSchema>;
 
