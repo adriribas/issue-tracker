@@ -11,10 +11,10 @@ import axios from 'axios';
 import type { Issue } from '@prisma/client';
 import 'easymde/dist/easymde.min.css';
 
-import { createIssueSchema } from '@/app/validationSchemas';
+import { issueSchema } from '@/app/validationSchemas';
 import { ErrorMessage, Spinner } from '@/app/components';
 
-type IssueFormData = z.infer<typeof createIssueSchema>;
+type IssueFormData = z.infer<typeof issueSchema>;
 
 type Props = {
   issue?: Issue;
@@ -28,7 +28,7 @@ const IssueForm: React.FC<Props> = ({ issue }) => {
     handleSubmit,
     formState: { errors },
   } = useForm<IssueFormData>({
-    resolver: zodResolver(createIssueSchema),
+    resolver: zodResolver(issueSchema),
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
