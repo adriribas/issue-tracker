@@ -1,9 +1,9 @@
-import Link from 'next/link';
 import { Table } from '@radix-ui/themes';
 import delay from 'delay';
 
 import prisma from '@/prisma/client';
 import IssueStatusBadge from '../components/IssueStatusBadge';
+import Link from '../components/Link';
 import IssueActions from './IssueActions';
 
 const IssuesPage: React.FC = async () => {
