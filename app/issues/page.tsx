@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { Table } from '@radix-ui/themes';
 import delay from 'delay';
 
@@ -30,7 +31,7 @@ const IssuesPage: React.FC = async () => {
             return (
               <Table.Row key={id}>
                 <Table.Cell>
-                  {title}
+                  <Link href={`/issues/${id}`}>{title}</Link>
                   <div className='block md:hidden'>
                     <IssueStatusBadge status={status} />
                   </div>
