@@ -5,7 +5,7 @@ import prisma from '@/prisma/client';
 import IssueFormSkeleton from '@/app/issues/_components/IssueFormSkeleton';
 
 const IssueForm = dynamic(() => import('@/app/issues/_components/IssueForm'), {
-  ssr: true,
+  ssr: false,
   loading: () => <IssueFormSkeleton />,
 });
 
