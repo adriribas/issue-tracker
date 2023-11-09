@@ -1,7 +1,9 @@
 import { notFound } from 'next/navigation';
 import { Box, Flex, Grid } from '@radix-ui/themes';
+import { getServerSession } from 'next-auth';
 
 import prisma from '@/prisma/client';
+import authOptions from '@/app/_auth/authOptions';
 import IssueDetails from './IssueDetails';
 import EditIssueButton from './EditIssueButton';
 import DeleteIssueButton from './DeleteIssueButton';
@@ -24,17 +26,21 @@ const IssueDetailPage: React.FC<Props> = async ({ params }) => {
     notFound();
   }
 
+  const session = await getServerSession(authOptions);
+
   return (
     <Grid columns={{ initial: '1', sm: '5' }} gap='5'>
       <Box className='md:col-span-4'>
         <IssueDetails issue={issue} />
       </Box>
-      <Box>
-        <Flex direction='column' gap='4'>
-          <EditIssueButton issueId={issue.id} />
-          <DeleteIssueButton issueId={issue.id} />
-        </Flex>
-      </Box>
+      {session ? (
+        <Box>
+          <Flex direction='column' gap='4'>
+            <EditIssueButton issueId={issue.id} />
+            <DeleteIssueButton issueId={issue.id} />
+          </Flex>
+        </Box>
+      ) : null}
     </Grid>
   );
 };
