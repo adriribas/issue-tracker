@@ -15,16 +15,7 @@ type Props = {
 const unassignedSelectValue = 'unassigned';
 
 const AssigneeSelect: React.FC<Props> = ({ issue }) => {
-  const {
-    data: users,
-    isLoading,
-    error,
-  } = useQuery<Array<User>>({
-    queryKey: ['users'],
-    queryFn: () => axios.get('/api/users').then((res) => res.data),
-    retry: 3,
-    staleTime: 60 * 1000,
-  });
+  const { data: users, isLoading, error } = useUsers();
 
   if (isLoading) {
     return <Skeleton height='2rem' />;
@@ -69,6 +60,15 @@ const AssigneeSelect: React.FC<Props> = ({ issue }) => {
       <Toaster />
     </>
   );
+};
+
+const useUsers = () => {
+  return useQuery<Array<User>>({
+    queryKey: ['users'],
+    queryFn: () => axios.get('/api/users').then((res) => res.data),
+    retry: 3,
+    staleTime: 60 * 60 * 1000, // 1h
+  });
 };
 
 export default AssigneeSelect;
