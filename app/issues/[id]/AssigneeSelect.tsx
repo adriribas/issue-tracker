@@ -3,11 +3,17 @@
 import { useQuery } from '@tanstack/react-query';
 import { Select } from '@radix-ui/themes';
 import axios from 'axios';
-import type { User } from '@prisma/client';
+import type { Issue, User } from '@prisma/client';
 
 import { Skeleton } from '@/app/components';
 
-const AssigneeSelect: React.FC = () => {
+type Props = {
+  issue: Issue;
+};
+
+const unassignedSelectValue = 'unassigned';
+
+const AssigneeSelect: React.FC<Props> = ({ issue }) => {
   const {
     data: users,
     isLoading,
@@ -28,11 +34,19 @@ const AssigneeSelect: React.FC = () => {
   }
 
   return (
-    <Select.Root>
-      <Select.Trigger />
+    <Select.Root
+      defaultValue={issue.assignedToUserId || unassignedSelectValue}
+      onValueChange={(value) => {
+        const userId = value === unassignedSelectValue ? null : value;
+        axios.patch(`/api/issues/${issue.id}`, {
+          assignedToUserId: userId,
+        });
+      }}>
+      <Select.Trigger placeholder='Assign...' />
       <Select.Content>
         <Select.Group>
           <Select.Label>Suggestions</Select.Label>
+          <Select.Item value={unassignedSelectValue}>Unassigned</Select.Item>
           {users?.map((user) => {
             const { id, name } = user;
             return (
