@@ -28,7 +28,7 @@ const AssigneeSelect: React.FC<Props> = ({ issue }) => {
   const handleValueChange = async (value: string) => {
     try {
       const userId = value === unassignedSelectValue ? null : value;
-      await axios.patch(`/xapi/issues/${issue.id}`, {
+      await axios.patch(`/api/issues/${issue.id}`, {
         assignedToUserId: userId,
       });
     } catch (e) {
