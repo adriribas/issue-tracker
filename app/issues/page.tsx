@@ -6,14 +6,18 @@ import { type Issue, Status } from '@prisma/client';
 import prisma from '@/prisma/client';
 import { IssueStatusBadge, Link } from '@/app/components';
 import IssueActions from './IssueActions';
+import Pagination from '../components/Pagination';
 
 type Props = {
   searchParams: {
     status?: Status;
     orderBy?: keyof Issue;
     sortOrder?: 'asc' | 'desc';
+    page?: string;
   };
 };
+
+const pageSize = 10;
 
 const IssuesPage: React.FC<Props> = async ({ searchParams }) => {
   const columns: Array<{
@@ -39,11 +43,16 @@ const IssuesPage: React.FC<Props> = async ({ searchParams }) => {
     columns.map((column) => column.value).includes(searchParams.orderBy)
       ? { [searchParams.orderBy]: searchParams.sortOrder || 'asc' }
       : undefined;
+  const where = { status };
+  const page = parseInt(searchParams.page!) || 1;
 
   const issues = await prisma.issue.findMany({
-    where: { status },
+    where,
     orderBy,
+    skip: (page - 1) * pageSize,
+    take: pageSize,
   });
+  const issueCount = await prisma.issue.count({ where });
 
   return (
     <div>
@@ -110,6 +119,11 @@ const IssuesPage: React.FC<Props> = async ({ searchParams }) => {
           })}
         </Table.Body>
       </Table.Root>
+      <Pagination
+        itemCount={issueCount}
+        pageSize={pageSize}
+        currentPage={page}
+      />
     </div>
   );
 };
