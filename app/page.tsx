@@ -1,5 +1,5 @@
 import prisma from '@/prisma/client';
-import IssueSummary from './IssueSummary';
+import IssueChart from './IssueChart';
 
 const Home: React.FC = async () => {
   const open = await prisma.issue.count({ where: { status: 'OPEN' } });
@@ -10,7 +10,7 @@ const Home: React.FC = async () => {
 
   return (
     <>
-      <IssueSummary open={open} inProgress={inProgress} closed={closed} />
+      <IssueChart open={open} inProgress={inProgress} closed={closed} />
     </>
   );
 };
