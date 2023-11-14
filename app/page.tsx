@@ -1,16 +1,9 @@
-import Pagination from './components/Pagination';
+import LatestIssues from './LatestIssues';
 
-const Home: React.FC<{ searchParams: { page: string } }> = ({
-  searchParams,
-}) => {
-  if (!searchParams.page) return null;
+const Home: React.FC = ({}) => {
   return (
     <>
-      <Pagination
-        itemCount={100}
-        pageSize={10}
-        currentPage={parseInt(searchParams.page)}
-      />
+      <LatestIssues />
     </>
   );
 };
