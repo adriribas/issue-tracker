@@ -54,14 +54,14 @@ const IssuesPage: React.FC<Props> = async ({ searchParams }) => {
             {columns.map((column) => {
               const { value, label, className } = column;
               const isSorted = value === searchParams.orderBy;
-              const isDesc = searchParams.sortOrder === 'desc';
-              const cancelSorting = isSorted && isDesc;
+              const isAsc = searchParams.sortOrder === 'asc';
+              const cancelSorting = isSorted && !isAsc;
               const orderBy = cancelSorting ? undefined : value;
               const sortOrder = cancelSorting
                 ? undefined
-                : isDesc
-                ? 'asc'
-                : 'desc';
+                : isAsc
+                ? 'desc'
+                : 'asc';
 
               return (
                 <Table.ColumnHeaderCell key={value} className={className}>
@@ -76,10 +76,10 @@ const IssuesPage: React.FC<Props> = async ({ searchParams }) => {
                     }}>
                     {label}
                     {isSorted ? (
-                      isDesc ? (
-                        <ArrowDownIcon className='inline' />
-                      ) : (
+                      isAsc ? (
                         <ArrowUpIcon className='inline' />
+                      ) : (
+                        <ArrowDownIcon className='inline' />
                       )
                     ) : null}
                   </NextLink>
