@@ -1,14 +1,20 @@
 import NextLink from 'next/link';
 import { Table } from '@radix-ui/themes';
-import { ArrowUpIcon } from '@radix-ui/react-icons';
+import { ArrowDownIcon, ArrowUpIcon } from '@radix-ui/react-icons';
 import { type Issue, Status } from '@prisma/client';
 
 import prisma from '@/prisma/client';
 import { IssueStatusBadge, Link } from '@/app/components';
 import IssueActions from './IssueActions';
 
+type SortOrder = 'asc' | 'desc';
+
 type Props = {
-  searchParams: { status?: Status; orderBy?: keyof Issue };
+  searchParams: {
+    status?: Status;
+    orderBy?: keyof Issue;
+    sortOrder?: SortOrder;
+  };
 };
 
 const IssuesPage: React.FC<Props> = async ({ searchParams }) => {
@@ -33,7 +39,7 @@ const IssuesPage: React.FC<Props> = async ({ searchParams }) => {
   const orderBy =
     searchParams.orderBy &&
     columns.map((column) => column.value).includes(searchParams.orderBy)
-      ? { [searchParams.orderBy]: 'asc' }
+      ? { [searchParams.orderBy]: searchParams.sortOrder || 'asc' }
       : undefined;
 
   const issues = await prisma.issue.findMany({
@@ -49,13 +55,34 @@ const IssuesPage: React.FC<Props> = async ({ searchParams }) => {
           <Table.Row>
             {columns.map((column) => {
               const { value, label, className } = column;
+              const isSorted = value === searchParams.orderBy;
+              const isDesc = searchParams.sortOrder === 'desc';
+              const cancelSorting = isSorted && isDesc;
+              const orderBy = cancelSorting ? undefined : value;
+              const sortOrder = cancelSorting
+                ? undefined
+                : isDesc
+                ? 'asc'
+                : 'desc';
+
               return (
                 <Table.ColumnHeaderCell key={value} className={className}>
                   <NextLink
-                    href={{ query: { ...searchParams, orderBy: value } }}>
+                    href={{
+                      pathname: '/issues',
+                      query: {
+                        ...searchParams,
+                        orderBy,
+                        sortOrder,
+                      },
+                    }}>
                     {label}
-                    {value === searchParams.orderBy ? (
-                      <ArrowUpIcon className='inline' />
+                    {isSorted ? (
+                      isDesc ? (
+                        <ArrowDownIcon className='inline' />
+                      ) : (
+                        <ArrowUpIcon className='inline' />
+                      )
                     ) : null}
                   </NextLink>
                 </Table.ColumnHeaderCell>
