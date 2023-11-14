@@ -4,16 +4,18 @@ import { Card } from '@radix-ui/themes';
 import { ResponsiveContainer, BarChart, XAxis, YAxis, Bar } from 'recharts';
 
 type Props = {
-  open: number;
-  inProgress: number;
-  closed: number;
+  statusCount: {
+    open: number;
+    inProgress: number;
+    closed: number;
+  };
 };
 
-const IssueChart: React.FC<Props> = ({ open, inProgress, closed }) => {
+const IssueChart: React.FC<Props> = ({ statusCount }) => {
   const data: Array<{ label: string; value: number }> = [
-    { label: 'Open', value: open },
-    { label: 'In Progress', value: inProgress },
-    { label: 'Closed', value: closed },
+    { label: 'Open', value: statusCount.open },
+    { label: 'In Progress', value: statusCount.inProgress },
+    { label: 'Closed', value: statusCount.closed },
   ];
 
   return (
