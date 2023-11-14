@@ -67,7 +67,7 @@ const AuthStatus: React.FC = () => {
   const { status, data: session } = useSession();
 
   if (status === 'loading') {
-    return <Skeleton width='3rem' />;
+    return <Skeleton width='3rem' height='1.75rem' />;
   }
 
   if (status === 'unauthenticated') {
