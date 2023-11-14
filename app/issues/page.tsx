@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import { Status } from '@prisma/client';
 import { Flex } from '@radix-ui/themes';
 
@@ -50,5 +51,10 @@ const IssuesPage: React.FC<Props> = async ({ searchParams }) => {
 };
 
 export const dynamic = 'force-dynamic';
+
+export const metadata: Metadata = {
+  title: 'Issue Tracker - Issue list',
+  description: 'View all project issues',
+};
 
 export default IssuesPage;
