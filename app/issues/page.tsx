@@ -7,13 +7,11 @@ import prisma from '@/prisma/client';
 import { IssueStatusBadge, Link } from '@/app/components';
 import IssueActions from './IssueActions';
 
-type SortOrder = 'asc' | 'desc';
-
 type Props = {
   searchParams: {
     status?: Status;
     orderBy?: keyof Issue;
-    sortOrder?: SortOrder;
+    sortOrder?: 'asc' | 'desc';
   };
 };
 

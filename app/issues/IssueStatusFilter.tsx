@@ -29,7 +29,9 @@ const IssueStatusFilter: React.FC = () => {
   };
 
   return (
-    <Select.Root onValueChange={handleChangeFilter}>
+    <Select.Root
+      defaultValue={searchParams.get('status') || 'ALL'}
+      onValueChange={handleChangeFilter}>
       <Select.Trigger placeholder='Filter by status...' />
       <Select.Content>
         <Select.Group>
