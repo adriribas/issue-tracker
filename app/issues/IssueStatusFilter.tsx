@@ -23,6 +23,7 @@ const IssueStatusFilter: React.FC = () => {
     } else {
       params.set('status', value);
     }
+    params.delete('page');
 
     router.push(`?${params.toString()}`);
   };
