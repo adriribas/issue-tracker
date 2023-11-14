@@ -1,6 +1,6 @@
 'use client';
 
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Select } from '@radix-ui/themes';
 import type { Status } from '@prisma/client';
 
@@ -13,7 +13,6 @@ const statuses: Array<{ label: string; value: Status | 'ALL' }> = [
 
 const IssueStatusFilter: React.FC = () => {
   const router = useRouter();
-  const pathname = usePathname();
   const searchParams = useSearchParams();
 
   const handleChangeFilter = (value: Status | 'ALL') => {
@@ -25,7 +24,7 @@ const IssueStatusFilter: React.FC = () => {
       params.set('status', value);
     }
 
-    router.push(`${pathname}?${params.toString()}`);
+    router.push(`?${params.toString()}`);
   };
 
   return (
