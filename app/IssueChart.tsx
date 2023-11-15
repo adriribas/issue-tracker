@@ -21,7 +21,7 @@ const IssueChart: React.FC<Props> = ({ statusCount }) => {
   return (
     <Card>
       <ResponsiveContainer width='100%' height={300}>
-        <BarChart data={data}>
+        <BarChart data={data} className='-ml-5'>
           <XAxis dataKey='label' />
           <YAxis />
           <Bar
