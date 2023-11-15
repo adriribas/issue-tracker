@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { Button, TextField, Callout } from '@radix-ui/themes';
+import { Button, TextField, Callout, Box, Flex } from '@radix-ui/themes';
 import SimpleMDE from 'react-simplemde-editor';
 import { useForm, Controller, type SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -12,7 +12,7 @@ import type { Issue } from '@prisma/client';
 import 'easymde/dist/easymde.min.css';
 
 import { issueSchema } from '@/app/validationSchemas';
-import { ErrorMessage, Spinner } from '@/app/components';
+import { ErrorMessage, Spinner, BackButton } from '@/app/components';
 
 type IssueFormData = z.infer<typeof issueSchema>;
 
@@ -50,14 +50,14 @@ const IssueForm: React.FC<Props> = ({ issue }) => {
   };
 
   return (
-    <div className='max-w-xl'>
+    <Box className='max-w-xl'>
       {error ? (
         <Callout.Root color='red' className='mb-5'>
           <Callout.Text>{error}</Callout.Text>
         </Callout.Root>
       ) : null}
 
-      <form onSubmit={handleSubmit(onSubmit)} className=' space-y-3'>
+      <form onSubmit={handleSubmit(onSubmit)} className='space-y-3'>
         <TextField.Root>
           <TextField.Input
             {...register('title')}
@@ -77,12 +77,18 @@ const IssueForm: React.FC<Props> = ({ issue }) => {
         />
         <ErrorMessage>{errors.description?.message}</ErrorMessage>
 
-        <Button disabled={isSubmitting}>
-          {issue ? 'Update Issue' : 'Submit New Issue'}{' '}
-          {isSubmitting ? <Spinner /> : null}
-        </Button>
+        <Flex gap='4'>
+          <Button disabled={isSubmitting}>
+            {issue ? 'Update Issue' : 'Submit New Issue'}{' '}
+            {isSubmitting ? <Spinner /> : null}
+          </Button>
+          <BackButton
+            disabled={isSubmitting}
+            href={issue ? `/issues/${issue.id}` : '/issues'}
+          />
+        </Flex>
       </form>
-    </div>
+    </Box>
   );
 };
 

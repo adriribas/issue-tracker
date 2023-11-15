@@ -9,6 +9,7 @@ import IssueDetails from './IssueDetails';
 import EditIssueButton from './EditIssueButton';
 import DeleteIssueButton from './DeleteIssueButton';
 import AssigneeSelect from './AssigneeSelect';
+import { BackButton } from '@/app/components';
 
 const fetchIssue = cache((issueId: number) =>
   prisma.issue.findUnique({ where: { id: issueId } })
@@ -36,15 +37,18 @@ const IssueDetailPage: React.FC<Props> = async ({ params }) => {
       <Box className='md:col-span-4'>
         <IssueDetails issue={issue} />
       </Box>
-      {session ? (
-        <Box>
-          <Flex direction='column' gap='4'>
-            <AssigneeSelect issue={issue} />
-            <EditIssueButton issueId={issue.id} />
-            <DeleteIssueButton issueId={issue.id} />
-          </Flex>
-        </Box>
-      ) : null}
+      <Box>
+        <Flex direction='column' gap='4'>
+          {session ? (
+            <>
+              <AssigneeSelect issue={issue} />
+              <EditIssueButton issueId={issue.id} />
+              <DeleteIssueButton issueId={issue.id} />
+            </>
+          ) : null}
+          <BackButton href='/issues' />
+        </Flex>
+      </Box>
     </Grid>
   );
 };

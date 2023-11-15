@@ -4,7 +4,7 @@ import { Flex } from '@radix-ui/themes';
 
 import prisma from '@/prisma/client';
 import IssueActions from './IssueActions';
-import Pagination from '@/app/components/Pagination';
+import { Pagination } from '@/app/components';
 import IssueTable, { type IssueQuery, columnNames } from './IssueTable';
 
 type Props = {
