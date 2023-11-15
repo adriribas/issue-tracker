@@ -52,7 +52,9 @@ const NavLinks: React.FC = () => {
               href={href}
               className={classnames({
                 'nav-link': true,
-                '!text-zinc-900': href === currentPath,
+                '!text-zinc-900':
+                  href === currentPath ||
+                  (href !== '/' && currentPath.startsWith(href)),
               })}>
               {label}
             </Link>
