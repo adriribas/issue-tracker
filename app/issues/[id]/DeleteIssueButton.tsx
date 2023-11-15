@@ -46,7 +46,7 @@ const DeleteIssueButton: React.FC<Props> = ({ issueId }) => {
             undone.
           </AlertDialog.Description>
 
-          <Flex className='gap-3 mt-4'>
+          <Flex justify='end' gap='3' mt='4'>
             <AlertDialog.Cancel>
               <Button variant='soft' color='gray'>
                 Cancel
