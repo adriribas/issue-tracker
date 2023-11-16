@@ -1,6 +1,7 @@
 import dynamic from 'next/dynamic';
 import { notFound } from 'next/navigation';
 import { cache } from 'react';
+import { Flex } from '@radix-ui/themes';
 
 import prisma from '@/prisma/client';
 import IssueFormSkeleton from '@/app/issues/_components/IssueFormSkeleton';
@@ -29,7 +30,11 @@ const EditIssuePage: React.FC<Props> = async ({ params }) => {
     notFound();
   }
 
-  return <IssueForm issue={issue} />;
+  return (
+    <Flex justify='center'>
+      <IssueForm issue={issue} />
+    </Flex>
+  );
 };
 
 export async function generateMetadata({ params }: Props) {

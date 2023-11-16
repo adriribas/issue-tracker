@@ -50,7 +50,7 @@ const IssueForm: React.FC<Props> = ({ issue }) => {
   };
 
   return (
-    <Box className='max-w-xl'>
+    <Box className='max-w-4xl w-full'>
       {error ? (
         <Callout.Root color='red' className='mb-5'>
           <Callout.Text>{error}</Callout.Text>
@@ -77,7 +77,7 @@ const IssueForm: React.FC<Props> = ({ issue }) => {
         />
         <ErrorMessage>{errors.description?.message}</ErrorMessage>
 
-        <Flex gap='4'>
+        <Flex direction={{ initial: 'column', sm: 'row' }} gap='4'>
           <Button disabled={isSubmitting}>
             {issue ? 'Update Issue' : 'Submit New Issue'}{' '}
             {isSubmitting ? <Spinner /> : null}
