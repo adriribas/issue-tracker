@@ -7,9 +7,9 @@ const IssueActions: React.FC = () => {
   return (
     <Flex justify='between'>
       <IssueStatusFilter />
-      <Button>
-        <Link href='/issues/new'>New Issue</Link>
-      </Button>
+      <Link href='/issues/new'>
+        <Button>New Issue</Button>
+      </Link>
     </Flex>
   );
 };

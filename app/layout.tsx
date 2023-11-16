@@ -3,8 +3,8 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { Container, Theme } from '@radix-ui/themes';
 
-import './theme-config.css';
 import './globals.css';
+import './theme-config.css';
 import NavBar from './NavBar';
 import AuthProvider from '@/app/_auth/Provider';
 import QueryClientProvider from './QueryClientProvider';
@@ -26,8 +26,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang='en'>
-      <body className={inter.variable}>
+    <html lang='en' className={inter.variable}>
+      <body>
         <QueryClientProvider>
           <AuthProvider>
             <Theme accentColor='iris' radius='large'>

@@ -10,6 +10,12 @@ body {
   color: rgb(var(--foreground-rgb));
 }
 
+@layer base {
+  button {
+    @apply cursor-pointer !important;
+  }
+}
+
 @layer utilities {
   .nav-link {
     @apply text-zinc-500 hover:text-zinc-800 transition-colors;
