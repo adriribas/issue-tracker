@@ -20,9 +20,9 @@ const IssueSummary: React.FC<Props> = async ({ statusCount }) => {
     },
     { label: 'Closed Issues', value: statusCount.closed, status: 'CLOSED' },
   ];
-  //gap='4'
+
   return (
-    <Flex justify='center' className='gap-2 sm:gap-6 md:gap-8'>
+    <Flex justify='center' gap={{ initial: '2', sm: '6', md: '8' }}>
       {containers.map((container) => {
         const { label, value, status } = container;
         return (

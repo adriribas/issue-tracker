@@ -1,5 +1,5 @@
 import NextLink from 'next/link';
-import { Table } from '@radix-ui/themes';
+import { Box, Table } from '@radix-ui/themes';
 import { ArrowUpIcon, ArrowDownIcon } from '@radix-ui/react-icons';
 import type { Issue, Status } from '@prisma/client';
 
@@ -66,9 +66,9 @@ const IssueTable: React.FC<Props> = ({ searchParams, issues }) => {
             <Table.Row key={id}>
               <Table.Cell>
                 <Link href={`/issues/${id}`}>{title}</Link>
-                <div className='block md:hidden'>
+                <Box className='block md:hidden'>
                   <IssueStatusBadge status={status} />
-                </div>
+                </Box>
               </Table.Cell>
               <Table.Cell className='hidden md:table-cell'>
                 <IssueStatusBadge status={status} />

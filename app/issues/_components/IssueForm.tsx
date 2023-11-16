@@ -50,9 +50,9 @@ const IssueForm: React.FC<Props> = ({ issue }) => {
   };
 
   return (
-    <Box className='max-w-4xl w-full'>
+    <Box width='100%' className='max-w-4xl'>
       {error ? (
-        <Callout.Root color='red' className='mb-5'>
+        <Callout.Root mb='5' color='red'>
           <Callout.Text>{error}</Callout.Text>
         </Callout.Root>
       ) : null}
