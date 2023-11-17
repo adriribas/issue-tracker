@@ -41,11 +41,13 @@ const IssuesPage: React.FC<Props> = async ({ searchParams }) => {
     <Flex direction='column' gap='3'>
       <IssueActions />
       <IssueTable searchParams={searchParams} issues={issues} />
-      <Pagination
-        itemCount={issueCount}
-        pageSize={pageSize}
-        currentPage={page}
-      />
+      <Flex justify={{ initial: 'center', sm: 'start' }}>
+        <Pagination
+          itemCount={issueCount}
+          pageSize={pageSize}
+          currentPage={page}
+        />
+      </Flex>
     </Flex>
   );
 };
