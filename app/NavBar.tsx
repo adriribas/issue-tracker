@@ -2,8 +2,8 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import Image from 'next/image';
 import { useSession } from 'next-auth/react';
-import { AiFillBug } from 'react-icons/ai';
 import classnames from 'classnames';
 import {
   Avatar,
@@ -23,7 +23,7 @@ const NavBar: React.FC = () => {
         <Flex justify='between'>
           <Flex align='center' gap='6'>
             <Link href='/'>
-              <AiFillBug />
+              <Image src='/logo.svg' alt='' width={22} height={22} />
             </Link>
             <NavLinks />
           </Flex>

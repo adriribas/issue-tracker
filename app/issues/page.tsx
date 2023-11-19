@@ -55,7 +55,7 @@ const IssuesPage: React.FC<Props> = async ({ searchParams }) => {
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Issue Tracker - Issue list',
+  title: 'Issue Tracker | Issue list',
   description: 'View all project issues',
 };
 

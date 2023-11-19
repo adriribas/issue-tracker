@@ -18,7 +18,7 @@ const NewIssuePage: React.FC = () => {
 };
 
 export const metadata: Metadata = {
-  title: 'Issue Tracker - New Issue',
+  title: 'Issue Tracker | New Issue',
   description: 'Create a new project issue',
 };
 
