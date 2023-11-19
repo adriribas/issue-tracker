@@ -1,9 +1,9 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { useSession } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 import classnames from 'classnames';
 import {
   Avatar,
@@ -67,6 +67,7 @@ const NavLinks: React.FC = () => {
 
 const AuthStatus: React.FC = () => {
   const { status, data: session } = useSession();
+  const router = useRouter();
 
   if (status === 'loading') {
     return <Skeleton width='3rem' height='1.75rem' />;
@@ -75,6 +76,11 @@ const AuthStatus: React.FC = () => {
   if (status === 'unauthenticated') {
     return <Link href='/api/auth/signin'>Sign In</Link>;
   }
+
+  const handleSignOut = async () => {
+    const { url } = await signOut({ callbackUrl: '/', redirect: false });
+    router.push(url);
+  };
 
   return (
     <Box>
@@ -93,10 +99,10 @@ const AuthStatus: React.FC = () => {
           <DropdownMenu.Label>
             <Text size='2'>{session!.user!.email}</Text>
           </DropdownMenu.Label>
-          <DropdownMenu.Item>
-            <Link href='/api/auth/signout' className='w-full nav-link'>
-              Sign Out
-            </Link>
+          <DropdownMenu.Item
+            onClick={handleSignOut}
+            className='!cursor-pointer'>
+            Sign Out
           </DropdownMenu.Item>
         </DropdownMenu.Content>
       </DropdownMenu.Root>
