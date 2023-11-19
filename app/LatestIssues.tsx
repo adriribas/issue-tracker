@@ -23,20 +23,22 @@ const LatestIssues: React.FC = async () => {
             return (
               <Table.Row key={id}>
                 <Table.Cell>
-                  <Flex justify='between' align='center'>
-                    <Flex direction='column' align='start' gap='2'>
-                      <Link href={`/issues/${id}`}>{title}</Link>
-                      <IssueStatusBadge status={status} />
+                  <Link href={`/issues/${id}`}>
+                    <Flex justify='between' align='center'>
+                      <Flex direction='column' align='start' gap='2'>
+                        {title}
+                        <IssueStatusBadge status={status} />
+                      </Flex>
+                      {assignedToUser ? (
+                        <Avatar
+                          src={assignedToUser.image!}
+                          fallback='?'
+                          size='2'
+                          radius='full'
+                        />
+                      ) : null}
                     </Flex>
-                    {assignedToUser ? (
-                      <Avatar
-                        src={assignedToUser.image!}
-                        fallback='?'
-                        size='2'
-                        radius='full'
-                      />
-                    ) : null}
-                  </Flex>
+                  </Link>
                 </Table.Cell>
               </Table.Row>
             );

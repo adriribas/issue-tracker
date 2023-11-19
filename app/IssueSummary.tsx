@@ -26,18 +26,19 @@ const IssueSummary: React.FC<Props> = async ({ statusCount }) => {
       {containers.map((container) => {
         const { label, value, status } = container;
         return (
-          <Card key={label}>
-            <Flex direction='column' gap='1'>
-              <Link
-                href={`/issues?status=${status}`}
-                className='text-sm text-center font-medium'>
+          <Link
+            key={label}
+            href={`/issues?status=${status}`}
+            className='text-sm text-center font-medium hover:brightness-95'>
+            <Card>
+              <Flex direction='column' gap='1'>
                 {label}
-              </Link>
-              <Text size='5' weight='bold' align='center'>
-                {value}
-              </Text>
-            </Flex>
-          </Card>
+                <Text size='5' weight='bold' align='center'>
+                  {value}
+                </Text>
+              </Flex>
+            </Card>
+          </Link>
         );
       })}
     </Flex>
