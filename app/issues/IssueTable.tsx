@@ -26,13 +26,18 @@ const IssueTable: React.FC<Props> = ({ searchParams, issues }) => {
             const { value, label, className } = column;
             const isSorted = value === searchParams.orderBy;
             const isAsc = searchParams.sortOrder === 'asc';
-            const cancelSorting = isSorted && !isAsc;
-            const orderBy = cancelSorting ? undefined : value;
-            const sortOrder = cancelSorting
-              ? undefined
-              : isAsc
-              ? 'desc'
-              : 'asc';
+
+            let orderBy;
+            let sortOrder;
+            if (isSorted) {
+              if (isAsc) {
+                orderBy = value;
+                sortOrder = 'desc';
+              }
+            } else {
+              orderBy = value;
+              sortOrder = 'asc';
+            }
 
             return (
               <Table.ColumnHeaderCell key={value} className={className}>
