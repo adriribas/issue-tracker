@@ -48,7 +48,7 @@ const AssigneeSelect: React.FC<Props> = ({ issue }) => {
         <Select.Trigger placeholder='Assign...' />
         <Select.Content>
           <Select.Group>
-            <Select.Label>Assign a user</Select.Label>
+            <Select.Label>Assign to a user</Select.Label>
             <Select.Item value={unassignedSelectValue}>Unassigned</Select.Item>
             {users?.map((user) => {
               const { id, name } = user;
