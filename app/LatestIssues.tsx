@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Avatar, Box, Card, Flex, Heading, Table } from '@radix-ui/themes';
+import { Avatar, Card, Flex, Heading, Table } from '@radix-ui/themes';
 
 import prisma from '@/prisma/client';
 import { IssueStatusBadge, NoIssues } from './components';
@@ -15,7 +15,7 @@ const LatestIssues: React.FC = async () => {
     <Card>
       <Flex direction='column' height='100%' gap='5'>
         <Heading size='4'>Latest Issues</Heading>
-        {issues.length !== 0 ? (
+        {issues.length === 0 ? (
           <NoIssues />
         ) : (
           <Table.Root>
