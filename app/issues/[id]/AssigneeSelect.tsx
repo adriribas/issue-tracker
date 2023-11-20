@@ -7,6 +7,7 @@ import type { Issue, User } from '@prisma/client';
 import toast, { Toaster } from 'react-hot-toast';
 
 import { Skeleton } from '@/app/components';
+import { useRouter } from 'next/navigation';
 
 type Props = {
   issue: Issue;
@@ -16,6 +17,7 @@ const unassignedSelectValue = 'unassigned';
 
 const AssigneeSelect: React.FC<Props> = ({ issue }) => {
   const { data: users, isLoading, error } = useUsers();
+  const router = useRouter();
 
   if (isLoading) {
     return <Skeleton height='2rem' />;
@@ -32,6 +34,7 @@ const AssigneeSelect: React.FC<Props> = ({ issue }) => {
         assignedToUserId: userId,
       });
       toast.success('Assignee updated successfuly');
+      router.refresh();
     } catch (e) {
       toast.error('Changes could not be saved', { duration: 5000 });
     }

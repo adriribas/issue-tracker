@@ -42,7 +42,7 @@ export async function PATCH(
     data: {
       title,
       description,
-      status,
+      status: status || (assignedToUserId ? 'IN_PROGRESS' : undefined),
       assignedToUserId,
     },
   });
