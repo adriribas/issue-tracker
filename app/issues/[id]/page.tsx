@@ -8,6 +8,7 @@ import authOptions from '@/app/_auth/authOptions';
 import IssueDetails from './IssueDetails';
 import EditIssueButton from './EditIssueButton';
 import DeleteIssueButton from './DeleteIssueButton';
+import StatusSelect from './StatusSelect';
 import AssigneeSelect from './AssigneeSelect';
 import { BackButton } from '@/app/components';
 
@@ -42,6 +43,7 @@ const IssueDetailPage: React.FC<Props> = async ({ params }) => {
           {session ? (
             <>
               <AssigneeSelect issue={issue} />
+              <StatusSelect issue={issue} />
               <EditIssueButton issueId={issue.id} />
               <DeleteIssueButton issueId={issue.id} />
             </>

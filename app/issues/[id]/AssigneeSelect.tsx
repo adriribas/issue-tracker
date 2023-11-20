@@ -31,8 +31,9 @@ const AssigneeSelect: React.FC<Props> = ({ issue }) => {
       await axios.patch(`/api/issues/${issue.id}`, {
         assignedToUserId: userId,
       });
+      toast.success('Assignee updated successfuly');
     } catch (e) {
-      toast.error('Changes could not be saved.', { duration: 5000 });
+      toast.error('Changes could not be saved', { duration: 5000 });
     }
   };
 
@@ -44,7 +45,7 @@ const AssigneeSelect: React.FC<Props> = ({ issue }) => {
         <Select.Trigger placeholder='Assign...' />
         <Select.Content>
           <Select.Group>
-            <Select.Label>Suggestions</Select.Label>
+            <Select.Label>Assign a user</Select.Label>
             <Select.Item value={unassignedSelectValue}>Unassigned</Select.Item>
             {users?.map((user) => {
               const { id, name } = user;
