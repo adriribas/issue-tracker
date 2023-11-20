@@ -5,3 +5,4 @@ export { default as Spinner } from './Spinner';
 export { default as Skeleton } from './Skeleton';
 export { default as Pagination } from './Pagination';
 export { default as BackButton } from './BackButton';
+export { default as NoIssues } from './NoIssues';

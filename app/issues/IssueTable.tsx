@@ -1,5 +1,5 @@
 import NextLink from 'next/link';
-import { Box, Table } from '@radix-ui/themes';
+import { Box, Flex, Table, Text } from '@radix-ui/themes';
 import { ArrowUpIcon, ArrowDownIcon } from '@radix-ui/react-icons';
 import type { Issue, Status } from '@prisma/client';
 
@@ -65,25 +65,36 @@ const IssueTable: React.FC<Props> = ({ searchParams, issues }) => {
         </Table.Row>
       </Table.Header>
       <Table.Body>
-        {issues.map((issue) => {
-          const { id, title, status, createdAt } = issue;
-          return (
-            <Table.Row key={id}>
-              <Table.Cell>
-                <Link href={`/issues/${id}`}>{title}</Link>
-                <Box className='block md:hidden'>
+        {issues.length === 0 ? (
+          <Table.Cell colSpan={columns.length}>
+            <Flex direction='column' align='center' gap='1' p='3'>
+              <Text weight='medium' align='center'>
+                Oops! No issues found with the current filters
+              </Text>
+              <Text align='center'>Try to change them</Text>
+            </Flex>
+          </Table.Cell>
+        ) : (
+          issues.map((issue) => {
+            const { id, title, status, createdAt } = issue;
+            return (
+              <Table.Row key={id}>
+                <Table.Cell>
+                  <Link href={`/issues/${id}`}>{title}</Link>
+                  <Box className='block md:hidden'>
+                    <IssueStatusBadge status={status} />
+                  </Box>
+                </Table.Cell>
+                <Table.Cell className='hidden md:table-cell'>
                   <IssueStatusBadge status={status} />
-                </Box>
-              </Table.Cell>
-              <Table.Cell className='hidden md:table-cell'>
-                <IssueStatusBadge status={status} />
-              </Table.Cell>
-              <Table.Cell className='hidden md:table-cell'>
-                {createdAt.toDateString()}
-              </Table.Cell>
-            </Table.Row>
-          );
-        })}
+                </Table.Cell>
+                <Table.Cell className='hidden md:table-cell'>
+                  {createdAt.toDateString()}
+                </Table.Cell>
+              </Table.Row>
+            );
+          })
+        )}
       </Table.Body>
     </Table.Root>
   );

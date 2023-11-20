@@ -4,7 +4,7 @@ import { Flex } from '@radix-ui/themes';
 
 import prisma from '@/prisma/client';
 import IssueActions from './IssueActions';
-import { Pagination } from '@/app/components';
+import { NoIssues, Pagination } from '@/app/components';
 import IssueTable, { type IssueQuery, columnNames } from './IssueTable';
 
 type Props = {
@@ -35,7 +35,12 @@ const IssuesPage: React.FC<Props> = async ({ searchParams }) => {
     skip: (page - 1) * pageSize,
     take: pageSize,
   });
-  const issueCount = await prisma.issue.count({ where });
+  const issueCount = await prisma.issue.count();
+  const filteredIssueCount = await prisma.issue.count({ where });
+
+  if (!issueCount) {
+    return <NoIssues />;
+  }
 
   return (
     <Flex direction='column' gap='3'>
@@ -43,7 +48,7 @@ const IssuesPage: React.FC<Props> = async ({ searchParams }) => {
       <IssueTable searchParams={searchParams} issues={issues} />
       <Flex justify={{ initial: 'center', sm: 'start' }}>
         <Pagination
-          itemCount={issueCount}
+          itemCount={filteredIssueCount}
           pageSize={pageSize}
           currentPage={page}
         />

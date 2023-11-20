@@ -29,10 +29,12 @@ const IssueSummary: React.FC<Props> = async ({ statusCount }) => {
           <Link
             key={label}
             href={`/issues?status=${status}`}
-            className='text-sm text-center font-medium transition hover:brightness-95'>
+            className='transition hover:brightness-95'>
             <Card>
               <Flex direction='column' gap='1'>
-                {label}
+                <Text size='2' weight='medium' align='center'>
+                  {label}
+                </Text>
                 <Text size='5' weight='bold' align='center'>
                   {value}
                 </Text>
