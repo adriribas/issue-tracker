@@ -50,6 +50,9 @@ const AssigneeSelect: React.FC<Props> = ({ issue }) => {
           <Select.Group>
             <Select.Label>Assign to a user</Select.Label>
             <Select.Item value={unassignedValue}>Unassigned</Select.Item>
+          </Select.Group>
+          <Select.Separator />
+          <Select.Group>
             {users?.map((user) => {
               const { id, name } = user;
               return (
