@@ -10,3 +10,6 @@ export const useUsers = () => {
     staleTime: 60 * 60 * 1000, // 1h
   });
 };
+
+export const ASSIGNEE_ALL = 'ALL' as const;
+export const ASSIGNEE_UNASSIGNED = 'UNASSIGNED' as const;

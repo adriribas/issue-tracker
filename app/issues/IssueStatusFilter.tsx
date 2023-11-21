@@ -3,7 +3,12 @@
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Select } from '@radix-ui/themes';
 
-import { statusMap, statuses, type Status } from '@/app/util/statuses';
+import {
+  statusMap,
+  statuses,
+  type Status,
+  STATUS_ALL,
+} from '@/app/util/statuses';
 
 const IssueStatusFilter: React.FC = () => {
   const router = useRouter();
@@ -17,7 +22,7 @@ const IssueStatusFilter: React.FC = () => {
   const handleChangeFilter = (value: string) => {
     const params = new URLSearchParams(searchParams);
 
-    if (value === allValue) {
+    if (value === STATUS_ALL) {
       params.delete('status');
     } else {
       params.set('status', value);
@@ -29,7 +34,7 @@ const IssueStatusFilter: React.FC = () => {
 
   return (
     <Select.Root
-      defaultValue={currentStatus || allValue}
+      defaultValue={currentStatus || STATUS_ALL}
       onValueChange={handleChangeFilter}>
       <Select.Trigger
         placeholder='Filter by status...'
@@ -39,7 +44,7 @@ const IssueStatusFilter: React.FC = () => {
       <Select.Content>
         <Select.Group>
           <Select.Label>Filter by status</Select.Label>
-          <Select.Item value={allValue}>All</Select.Item>
+          <Select.Item value={STATUS_ALL}>All</Select.Item>
         </Select.Group>
         <Select.Separator />
         <Select.Group>
@@ -58,5 +63,3 @@ const IssueStatusFilter: React.FC = () => {
 };
 
 export default IssueStatusFilter;
-
-export const allValue = 'ALL';

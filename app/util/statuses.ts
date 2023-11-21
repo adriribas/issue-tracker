@@ -17,3 +17,5 @@ export const statuses: Array<{ value: Status } & Fields> = Object.entries(
   value: status as Status,
   ...fields,
 }));
+
+export const STATUS_ALL = 'ALL' as const;

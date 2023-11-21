@@ -7,7 +7,7 @@ import type { Issue } from '@prisma/client';
 import toast, { Toaster } from 'react-hot-toast';
 
 import { Skeleton } from '@/app/components';
-import { useUsers } from '@/app/hooks';
+import { useUsers } from '@/app/util/assignee';
 
 type Props = {
   issue: Issue;

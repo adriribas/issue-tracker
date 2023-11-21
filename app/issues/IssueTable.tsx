@@ -1,7 +1,7 @@
 import NextLink from 'next/link';
 import { Box, Flex, Table, Text } from '@radix-ui/themes';
 import { ArrowUpIcon, ArrowDownIcon } from '@radix-ui/react-icons';
-import type { Issue, Status } from '@prisma/client';
+import type { Issue, Status, User } from '@prisma/client';
 
 import { IssueStatusBadge, Link } from '../components';
 
@@ -10,6 +10,7 @@ export type IssueQuery = {
   orderBy?: keyof Issue;
   sortOrder?: 'asc' | 'desc';
   page?: string;
+  assignee?: User['id'];
 };
 
 type Props = {
@@ -66,14 +67,16 @@ const IssueTable: React.FC<Props> = ({ searchParams, issues }) => {
       </Table.Header>
       <Table.Body>
         {issues.length === 0 ? (
-          <Table.Cell colSpan={columns.length}>
-            <Flex direction='column' align='center' gap='1' p='3'>
-              <Text weight='medium' align='center'>
-                Oops! No issues found with the current filters
-              </Text>
-              <Text align='center'>Try to change them</Text>
-            </Flex>
-          </Table.Cell>
+          <Table.Row>
+            <Table.Cell colSpan={columns.length}>
+              <Flex direction='column' align='center' gap='1' p='3'>
+                <Text weight='medium' align='center'>
+                  Oops! No issues found with the current filters
+                </Text>
+                <Text align='center'>Try to change them</Text>
+              </Flex>
+            </Table.Cell>
+          </Table.Row>
         ) : (
           issues.map((issue) => {
             const { id, title, status, createdAt } = issue;

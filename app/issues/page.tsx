@@ -6,6 +6,7 @@ import prisma from '@/prisma/client';
 import IssueActions from './IssueActions';
 import { NoIssues, Pagination } from '@/app/components';
 import IssueTable, { type IssueQuery, columnNames } from './IssueTable';
+import { ASSIGNEE_UNASSIGNED } from '@/app/util/assignee';
 
 type Props = {
   searchParams: IssueQuery;
@@ -20,12 +21,17 @@ const IssuesPage: React.FC<Props> = async ({ searchParams }) => {
       ? searchParams.status
       : undefined;
 
+  const assignedToUserId =
+    searchParams.assignee === ASSIGNEE_UNASSIGNED
+      ? null
+      : searchParams.assignee;
+
   const orderBy =
     searchParams.orderBy && columnNames.includes(searchParams.orderBy)
       ? { [searchParams.orderBy]: searchParams.sortOrder || 'asc' }
       : undefined;
 
-  const where = { status };
+  const where = { status, assignedToUserId };
 
   const page = parseInt(searchParams.page!) || 1;
 
