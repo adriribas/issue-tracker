@@ -35,6 +35,7 @@ const IssueStatusFilter: React.FC = () => {
       <Select.Trigger placeholder='Filter by status...' />
       <Select.Content>
         <Select.Group>
+          <Select.Label>Filter by status</Select.Label>
           {statuses.map((status) => {
             const { label, value } = status;
             return (
