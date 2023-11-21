@@ -1,4 +1,4 @@
-import { Box, Button, Flex } from '@radix-ui/themes';
+import { Button, Flex } from '@radix-ui/themes';
 import Link from 'next/link';
 
 import IssueStatusFilter from './IssueStatusFilter';
@@ -7,10 +7,10 @@ import IssueAssigneeFilter from './IssueAssigneeFilter';
 const IssueActions: React.FC = () => {
   return (
     <Flex justify='between'>
-      <Box className='space-x-4'>
+      <Flex gap='4'>
         <IssueStatusFilter />
         <IssueAssigneeFilter />
-      </Box>
+      </Flex>
       <Link href='/issues/new'>
         <Button>New Issue</Button>
       </Link>

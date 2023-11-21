@@ -6,9 +6,7 @@ import { Select } from '@radix-ui/themes';
 import { Skeleton } from '@/app/components';
 import { useUsers } from '@/app/hooks';
 
-type Props = {};
-
-const IssueAssigneeFilter: React.FC<Props> = ({}) => {
+const IssueAssigneeFilter: React.FC = () => {
   const { data: users, isLoading, isError } = useUsers();
   const router = useRouter();
   const searchParams = useSearchParams();

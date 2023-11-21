@@ -2,23 +2,22 @@
 
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Select } from '@radix-ui/themes';
-import type { Status } from '@prisma/client';
 
-const statuses: Array<{ label: string; value: Status | 'ALL' }> = [
-  { label: 'All', value: 'ALL' },
-  { label: 'Open', value: 'OPEN' },
-  { label: 'In Progress', value: 'IN_PROGRESS' },
-  { label: 'Closed', value: 'CLOSED' },
-];
+import { statusMap, statuses, type Status } from '@/app/util/statuses';
 
 const IssueStatusFilter: React.FC = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const handleChangeFilter = (value: Status | 'ALL') => {
+  const currentStatus = searchParams.get('status') as Status | null;
+  const currentStatusColor = currentStatus
+    ? statusMap[currentStatus]?.color
+    : undefined;
+
+  const handleChangeFilter = (value: string) => {
     const params = new URLSearchParams(searchParams);
 
-    if (value === 'ALL') {
+    if (value === allValue) {
       params.delete('status');
     } else {
       params.set('status', value);
@@ -30,12 +29,20 @@ const IssueStatusFilter: React.FC = () => {
 
   return (
     <Select.Root
-      defaultValue={searchParams.get('status') || 'ALL'}
+      defaultValue={currentStatus || allValue}
       onValueChange={handleChangeFilter}>
-      <Select.Trigger placeholder='Filter by status...' />
+      <Select.Trigger
+        placeholder='Filter by status...'
+        color={currentStatusColor}
+        variant={currentStatusColor && 'soft'}
+      />
       <Select.Content>
         <Select.Group>
           <Select.Label>Filter by status</Select.Label>
+          <Select.Item value={allValue}>All</Select.Item>
+        </Select.Group>
+        <Select.Separator />
+        <Select.Group>
           {statuses.map((status) => {
             const { label, value } = status;
             return (
@@ -51,3 +58,5 @@ const IssueStatusFilter: React.FC = () => {
 };
 
 export default IssueStatusFilter;
+
+export const allValue = 'ALL';
