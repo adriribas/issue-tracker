@@ -9,10 +9,10 @@ import IssueTable, { type IssueQuery, columnNames } from './IssueTable';
 import { ASSIGNEE_UNASSIGNED } from '@/app/util/assignee';
 
 type Props = {
-  searchParams: IssueQuery;
+  searchParams: IssueQuery & { pageSize?: string };
 };
 
-const pageSize = 10;
+const DEFAULT_PAGE_SIZE = 10;
 
 const IssuesPage: React.FC<Props> = async ({ searchParams }) => {
   const statuses = Object.values(Status);
@@ -34,6 +34,7 @@ const IssuesPage: React.FC<Props> = async ({ searchParams }) => {
   const where = { status, assignedToUserId };
 
   const page = parseInt(searchParams.page!) || 1;
+  const pageSize = parseInt(searchParams.pageSize!) || DEFAULT_PAGE_SIZE;
 
   const issues = await prisma.issue.findMany({
     where,
