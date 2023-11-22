@@ -41,7 +41,12 @@ const Pagination: React.FC<Props> = ({ currentPage, itemCount, pageSize }) => {
   };
 
   return (
-    <Flex justify='between' width='100%'>
+    <Flex
+      direction={{ initial: 'column', xs: 'row' }}
+      justify={{ initial: 'start', xs: 'between' }}
+      align={{ initial: 'center', xs: 'stretch' }}
+      gap={{ initial: '3', xs: '0' }}
+      width='100%'>
       <Flex align='center' gap='2'>
         <Text size='2'>
           Page {currentPage} of {pageCount}
