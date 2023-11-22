@@ -38,6 +38,7 @@ const NewComment: React.FC<Props> = ({ issueId }) => {
 
   const handleCancelWritting = () => {
     setWriteMode(false);
+    setText('');
   };
 
   const handleTextChange: ChangeEventHandler<HTMLTextAreaElement> = (event) => {
