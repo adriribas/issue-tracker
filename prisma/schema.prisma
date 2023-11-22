@@ -10,7 +10,6 @@ datasource db {
 
 model Account {
   id                String  @id @default(cuid())
-  userId            String
   type              String
   provider          String
   providerAccountId String
@@ -22,7 +21,8 @@ model Account {
   id_token          String? @db.Text
   session_state     String?
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
   @@index([userId])
@@ -31,9 +31,10 @@ model Account {
 model Session {
   id           String   @id @default(cuid())
   sessionToken String   @unique
-  userId       String
   expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
 }
@@ -47,6 +48,7 @@ model User {
   accounts       Account[]
   sessions       Session[]
   assignedIssues Issue[]
+  comments       Comment[]
 }
 
 model VerificationToken {
@@ -58,16 +60,37 @@ model VerificationToken {
 }
 
 model Issue {
-  id               Int      @id @default(autoincrement())
-  title            String   @db.VarChar(255)
-  description      String   @db.Text
-  status           Status   @default(OPEN)
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
-  assignedToUserId String?  @db.VarChar(255)
-  assignedToUser   User?    @relation(fields: [assignedToUserId], references: [id])
+  id          Int      @id @default(autoincrement())
+  title       String   @db.VarChar(255)
+  description String   @db.Text
+  status      Status   @default(OPEN)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  assignedToUserId String? @db.VarChar(255)
+  assignedToUser   User?   @relation(fields: [assignedToUserId], references: [id])
+
+  comments Comment[]
 
   @@index([assignedToUserId])
+}
+
+model Comment {
+  id   Int    @id @default(autoincrement())
+  text String @db.Text
+
+  authorId String @db.VarChar(255)
+  author   User   @relation(fields: [authorId], references: [id])
+
+  issueId Int
+  issue   Issue @relation(fields: [issueId], references: [id])
+
+  replays         Comment[] @relation("CommentReplays")
+  replayedComment Comment?  @relation("CommentReplays", fields: [id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([authorId])
+  @@index([issueId])
+  @@index([id])
 }
 
 enum Status {
