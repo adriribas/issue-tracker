@@ -37,37 +37,33 @@ const IssueDetailPage: React.FC<Props> = async ({ params }) => {
 
   const session = await getServerSession(authOptions);
 
-  const issueCommentsComponent = <IssueComments issue={issue} />;
-
   return (
-    <>
-      <Grid columns={{ initial: '1', sm: '5' }} gap='5' mb='5'>
-        <Box className='md:col-span-4'>
-          <IssueDetails issue={issue} />
-          <Box display={{ initial: 'none', sm: 'block' }}>
-            <Separator size='3' mt='7' mb='4' />
-            {issueCommentsComponent}
-          </Box>
+    <Grid columns={{ initial: '1', sm: '5' }} gap='5' mb='5'>
+      <Box className='md:col-span-4'>
+        <IssueDetails issue={issue} />
+        <Box display={{ initial: 'none', sm: 'block' }}>
+          <Separator size='3' mt='7' mb='4' />
+          <IssueComments issue={issue} />
         </Box>
-        <Box>
-          <Flex direction='column' gap='4'>
-            {session ? (
-              <>
-                <AssigneeSelect issue={issue} />
-                <StatusSelect issue={issue} />
-                <EditIssueButton issueId={issue.id} />
-                <DeleteIssueButton issueId={issue.id} />
-              </>
-            ) : null}
-            <BackButton href='/issues' />
-          </Flex>
-        </Box>
-        <Box display={{ initial: 'block', sm: 'none' }}>
-          <Separator size='4' mb='3' />
-          {issueCommentsComponent}
-        </Box>
-      </Grid>
-    </>
+      </Box>
+      <Box>
+        <Flex direction='column' gap='4'>
+          {session ? (
+            <>
+              <AssigneeSelect issue={issue} />
+              <StatusSelect issue={issue} />
+              <EditIssueButton issueId={issue.id} />
+              <DeleteIssueButton issueId={issue.id} />
+            </>
+          ) : null}
+          <BackButton href='/issues' />
+        </Flex>
+      </Box>
+      <Box display={{ initial: 'block', sm: 'none' }}>
+        <Separator size='4' mb='3' />
+        <IssueComments issue={issue} />
+      </Box>
+    </Grid>
   );
 };
 

@@ -17,7 +17,7 @@ const IssueDetails: React.FC<Props> = ({ issue }) => {
         <Text size='2'>{issue.createdAt.toDateString()}</Text>
       </Flex>
       <Card mt='4' className='prose max-w-full'>
-        <ReactMarkdown className='text-sm md:text-[1rem]'>
+        <ReactMarkdown className='sm:text-[0.6rem] md:text-[1rem]'>
           {issue.description}
         </ReactMarkdown>
       </Card>

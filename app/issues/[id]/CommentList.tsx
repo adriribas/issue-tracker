@@ -26,7 +26,7 @@ const CommentList: React.FC<Props> = ({ comments }) => {
               <Text size='2' weight='bold'>
                 {author.name}
               </Text>
-              <Text size={{ initial: '1', xs: '2' }}>{text}</Text>
+              <Text size='2'>{text}</Text>
             </Flex>
           </Flex>
         );
