@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { Select } from '@radix-ui/themes';
+import { Avatar, Flex, Select } from '@radix-ui/themes';
 import axios from 'axios';
 import type { Issue } from '@prisma/client';
 import toast, { Toaster } from 'react-hot-toast';
@@ -54,10 +54,13 @@ const AssigneeSelect: React.FC<Props> = ({ issue }) => {
           <Select.Separator />
           <Select.Group>
             {users?.map((user) => {
-              const { id, name } = user;
+              const { id, name, image } = user;
               return (
                 <Select.Item key={id} value={id}>
-                  {name}
+                  <Flex align='center' gap='2'>
+                    <Avatar src={image!} fallback='?' size='1' radius='full' />
+                    {name}
+                  </Flex>
                 </Select.Item>
               );
             })}
