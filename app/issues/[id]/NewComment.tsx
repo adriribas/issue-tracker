@@ -11,6 +11,7 @@ import {
 } from 'react';
 
 import { Skeleton } from '@/app/components';
+import { ChatBubbleIcon } from '@radix-ui/react-icons';
 
 type Props = {
   issueId: Issue['id'];
@@ -81,6 +82,7 @@ const NewComment: React.FC<Props> = ({ issueId }) => {
             disabled={text.length === 0}
             size={{ initial: '1', xs: '2' }}
             onClick={handlePublishComment}>
+            {<ChatBubbleIcon />}
             Publish
           </Button>
         </Flex>

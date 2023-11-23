@@ -1,11 +1,12 @@
 import { getServerSession } from 'next-auth';
 import { Prisma } from '@prisma/client';
-import { Box, Button, Callout, Flex, Heading } from '@radix-ui/themes';
+import { Box, Flex, Heading } from '@radix-ui/themes';
 
 import authOptions from '@/app/_auth/authOptions';
 import NewComment from './NewComment';
 import CommentList from './CommentList';
 import SignInToComment from './SignInToComment';
+import { ChatBubbleIcon } from '@radix-ui/react-icons';
 
 type Props = {
   issue: Prisma.IssueGetPayload<{
@@ -23,11 +24,12 @@ const IssueComments: React.FC<Props> = async ({ issue }) => {
 
   return (
     <Box>
-      <Flex justify='between'>
-        <Heading as='h2' size='4'>
+      <Heading as='h2' size='4'>
+        <Flex align='center' gap='3'>
+          {<ChatBubbleIcon className='w-6 h-6' />}
           {issue.comments.length} comments
-        </Heading>
-      </Flex>
+        </Flex>
+      </Heading>
 
       <Box my='4'>
         {logged ? <NewComment issueId={issue.id} /> : <SignInToComment />}

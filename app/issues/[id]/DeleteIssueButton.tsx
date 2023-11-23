@@ -7,6 +7,7 @@ import { AlertDialog, Button, Flex } from '@radix-ui/themes';
 import axios from 'axios';
 
 import { Spinner } from '@/app/components';
+import { TrashIcon } from '@radix-ui/react-icons';
 
 type Props = {
   issueId: Issue['id'];
@@ -34,6 +35,7 @@ const DeleteIssueButton: React.FC<Props> = ({ issueId }) => {
       <AlertDialog.Root>
         <AlertDialog.Trigger>
           <Button disabled={isDeleting} color='red'>
+            <TrashIcon />
             Delete Issue
             {isDeleting ? <Spinner /> : null}
           </Button>
