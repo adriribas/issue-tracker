@@ -9,18 +9,23 @@ import {
   useLayoutEffect,
   useRef,
 } from 'react';
-
-import { Skeleton } from '@/app/components';
 import { ChatBubbleIcon } from '@radix-ui/react-icons';
+import axios from 'axios';
+import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
+
+import { Skeleton, Spinner } from '@/app/components';
 
 type Props = {
   issueId: Issue['id'];
 };
 
 const NewComment: React.FC<Props> = ({ issueId }) => {
-  const { data: session, status: ddd } = useSession();
+  const { data: session } = useSession();
+  const router = useRouter();
   const [writeMode, setWriteMode] = useState(false);
   const [text, setText] = useState('');
+  const [isPublishing, setIsPublishing] = useState(false);
 
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -33,13 +38,17 @@ const NewComment: React.FC<Props> = ({ issueId }) => {
 
   useLayoutEffect(() => resizeTextArea(), []);
 
+  const resetStates = () => {
+    setWriteMode(false);
+    setText('');
+  };
+
   const handleActivateWritting = () => {
     setWriteMode(true);
   };
 
   const handleCancelWritting = () => {
-    setWriteMode(false);
-    setText('');
+    resetStates();
   };
 
   const handleTextChange: ChangeEventHandler<HTMLTextAreaElement> = (event) => {
@@ -47,7 +56,18 @@ const NewComment: React.FC<Props> = ({ issueId }) => {
     resizeTextArea();
   };
 
-  const handlePublishComment = () => {};
+  const handlePublishComment = async () => {
+    try {
+      setIsPublishing(true);
+      await axios.post(`/api/issues/${issueId}/comments`, { text });
+      resetStates();
+      router.refresh();
+    } catch (e) {
+      toast.error('Failed to publish this comment. Try it later.');
+    } finally {
+      setIsPublishing(false);
+    }
+  };
 
   return (
     <Box>
@@ -72,6 +92,7 @@ const NewComment: React.FC<Props> = ({ issueId }) => {
       {writeMode ? (
         <Flex justify='end' gap='4' mt='2'>
           <Button
+            disabled={isPublishing}
             size={{ initial: '1', xs: '2' }}
             variant='soft'
             color='gray'
@@ -79,11 +100,12 @@ const NewComment: React.FC<Props> = ({ issueId }) => {
             Cancel
           </Button>
           <Button
-            disabled={text.length === 0}
+            disabled={text.length === 0 || isPublishing}
             size={{ initial: '1', xs: '2' }}
             onClick={handlePublishComment}>
             {<ChatBubbleIcon />}
             Publish
+            {isPublishing ? <Spinner /> : null}
           </Button>
         </Flex>
       ) : null}
