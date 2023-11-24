@@ -1,12 +1,20 @@
-import { Prisma } from '@prisma/client';
+import { getServerSession } from 'next-auth';
+import { type Issue, Prisma } from '@prisma/client';
 import { Flex, Avatar, Text } from '@radix-ui/themes';
+
+import authOptions from '@/app/_auth/authOptions';
 import CommentBadges from './CommentBadges';
 
 type Props = {
   comments: Array<Prisma.CommentGetPayload<{ include: { author: true } }>>;
+  assignedToId?: Issue['assignedToUserId'];
 };
 
-const CommentList: React.FC<Props> = async ({ comments }) => {
+const CommentList: React.FC<Props> = async ({ comments, assignedToId }) => {
+  const session = await getServerSession(authOptions);
+
+  const isAssignedToIssue = !!assignedToId && session?.user.id === assignedToId;
+
   return (
     <Flex direction='column' gap='5'>
       {comments.map((comment) => {
@@ -30,7 +38,10 @@ const CommentList: React.FC<Props> = async ({ comments }) => {
                 </Text>
               </Flex>
 
-              <CommentBadges isIssueCreator isAssignedToIssue />
+              <CommentBadges
+                isIssueCreator
+                isAssignedToIssue={isAssignedToIssue}
+              />
 
               <Text size='2'>{text}</Text>
             </Flex>

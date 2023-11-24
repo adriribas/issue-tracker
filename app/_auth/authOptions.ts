@@ -15,6 +15,14 @@ const authOptions: AuthOptions = {
   session: {
     strategy: 'jwt',
   },
+  callbacks: {
+    session({ session, token }) {
+      if (session.user && token.sub) {
+        session.user.id = token.sub;
+      }
+      return session;
+    },
+  },
 };
 
 export default authOptions;

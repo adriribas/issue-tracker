@@ -35,7 +35,10 @@ const IssueComments: React.FC<Props> = async ({ issue }) => {
         {logged ? <NewComment issueId={issue.id} /> : <SignInToComment />}
       </Box>
 
-      <CommentList comments={issue.comments} />
+      <CommentList
+        comments={issue.comments}
+        assignedToId={issue.assignedToUserId}
+      />
     </Box>
   );
 };
