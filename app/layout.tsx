@@ -1,5 +1,6 @@
-import '@radix-ui/themes/styles.css';
 import type { Metadata } from 'next';
+import type { ReactNode } from 'react';
+import '@radix-ui/themes/styles.css';
 import { Inter } from 'next/font/google';
 import { Container, Theme } from '@radix-ui/themes';
 
@@ -20,11 +21,7 @@ export const metadata: Metadata = {
   description: 'Manage all your project issues',
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang='en' className={inter.variable}>
       <body>

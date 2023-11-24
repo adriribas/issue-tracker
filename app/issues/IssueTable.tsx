@@ -73,7 +73,7 @@ const IssueTable: React.FC<Props> = ({ searchParams, issues }) => {
                 <Text weight='medium' align='center'>
                   Oops! No issues found with the current filters
                 </Text>
-                <Text align='center'>Try to change them</Text>
+                <Text align='center'>Try changing them</Text>
               </Flex>
             </Table.Cell>
           </Table.Row>

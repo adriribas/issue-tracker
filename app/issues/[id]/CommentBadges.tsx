@@ -1,13 +1,13 @@
 import { Flex, Badge } from '@radix-ui/themes';
 
 type Props = {
-  isIssueCreator: boolean;
-  isAssignedToIssue: boolean;
+  isIssueCreator?: boolean;
+  isAssignedToIssue?: boolean;
 };
 
 const CommentBadges: React.FC<Props> = ({
-  isIssueCreator,
-  isAssignedToIssue,
+  isIssueCreator = false,
+  isAssignedToIssue = false,
 }) => {
   return (
     <Flex gap='2'>

@@ -38,10 +38,7 @@ const CommentList: React.FC<Props> = async ({ comments, assignedToId }) => {
                 </Text>
               </Flex>
 
-              <CommentBadges
-                isIssueCreator
-                isAssignedToIssue={isAssignedToIssue}
-              />
+              <CommentBadges isAssignedToIssue={isAssignedToIssue} />
 
               <Text size='2'>{text}</Text>
             </Flex>
