@@ -7,12 +7,18 @@ import CommentBadges from './CommentBadges';
 
 type Props = {
   comments: Array<Prisma.CommentGetPayload<{ include: { author: true } }>>;
+  creatorId: Issue['creatorId'];
   assignedToId?: Issue['assignedToUserId'];
 };
 
-const CommentList: React.FC<Props> = async ({ comments, assignedToId }) => {
+const CommentList: React.FC<Props> = async ({
+  comments,
+  creatorId,
+  assignedToId,
+}) => {
   const session = await getServerSession(authOptions);
 
+  const isIssueCreator = creatorId === session?.user.id;
   const isAssignedToIssue = !!assignedToId && session?.user.id === assignedToId;
 
   return (
@@ -38,7 +44,10 @@ const CommentList: React.FC<Props> = async ({ comments, assignedToId }) => {
                 </Text>
               </Flex>
 
-              <CommentBadges isAssignedToIssue={isAssignedToIssue} />
+              <CommentBadges
+                isIssueCreator={isIssueCreator}
+                isAssignedToIssue={isAssignedToIssue}
+              />
 
               <Text size='2'>{text}</Text>
             </Flex>

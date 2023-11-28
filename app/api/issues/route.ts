@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 
 import prisma from '@/prisma/client';
-import { issueSchema } from '../../validationSchemas';
+import { issueSchema } from '@/app/validationSchemas';
 import authOptions from '@/app/_auth/authOptions';
 
 export async function POST(request: NextRequest) {
@@ -19,7 +19,11 @@ export async function POST(request: NextRequest) {
   }
 
   const newIssue = await prisma.issue.create({
-    data: { title: body.title, description: body.description },
+    data: {
+      title: body.title,
+      description: body.description,
+      creatorId: session.user.id,
+    },
   });
 
   return NextResponse.json(newIssue, { status: 201 });

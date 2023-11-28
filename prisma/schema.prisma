@@ -47,8 +47,9 @@ model User {
   image          String?
   accounts       Account[]
   sessions       Session[]
-  assignedIssues Issue[]
+  assignedIssues Issue[]   @relation("Assignee")
   comments       Comment[]
+  Issue          Issue[]   @relation("Creator")
 }
 
 model VerificationToken {
@@ -67,12 +68,16 @@ model Issue {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
+  creatorId String? @db.VarChar(255)
+  creator   User?   @relation("Creator", fields: [creatorId], references: [id])
+
   assignedToUserId String? @db.VarChar(255)
-  assignedToUser   User?   @relation(fields: [assignedToUserId], references: [id])
+  assignedToUser   User?   @relation("Assignee", fields: [assignedToUserId], references: [id])
 
   comments Comment[]
 
   @@index([assignedToUserId])
+  @@index([creatorId])
 }
 
 model Comment {

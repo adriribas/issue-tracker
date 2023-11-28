@@ -1,8 +1,8 @@
 import { Flex, Badge } from '@radix-ui/themes';
 
 type Props = {
-  isIssueCreator?: boolean;
   isAssignedToIssue?: boolean;
+  isIssueCreator?: boolean;
 };
 
 const CommentBadges: React.FC<Props> = ({

@@ -37,6 +37,7 @@ const IssueComments: React.FC<Props> = async ({ issue }) => {
 
       <CommentList
         comments={issue.comments}
+        creatorId={issue.creatorId}
         assignedToId={issue.assignedToUserId}
       />
     </Box>
