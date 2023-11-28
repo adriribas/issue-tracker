@@ -33,7 +33,7 @@ export async function POST(
       text: body.text,
       authorId: session.user.id,
       issueId: issue.id,
-      replayedCommentId: body.replayedCommentId,
+      repliedCommentId: body.repliedCommentId,
     },
   });
 

@@ -18,8 +18,8 @@ const fetchIssue = cache((issueId: number) =>
     where: { id: issueId },
     include: {
       comments: {
-        where: { replayedCommentId: null },
-        include: { author: true },
+        where: { repliedCommentId: null },
+        include: { author: true, replies: { include: { author: true } } },
         orderBy: { createdAt: 'desc' },
       },
       assignedToUser: true,

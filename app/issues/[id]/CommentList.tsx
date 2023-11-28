@@ -4,9 +4,14 @@ import { Flex, Avatar, Text } from '@radix-ui/themes';
 
 import authOptions from '@/app/_auth/authOptions';
 import CommentBadges from './CommentBadges';
+import CommentReplies from './CommentReplies';
 
 type Props = {
-  comments: Array<Prisma.CommentGetPayload<{ include: { author: true } }>>;
+  comments: Array<
+    Prisma.CommentGetPayload<{
+      include: { author: true; replies: { include: { author: true } } };
+    }>
+  >;
   creatorId: Issue['creatorId'];
   assignedToId?: Issue['assignedToUserId'];
 };
@@ -24,7 +29,7 @@ const CommentList: React.FC<Props> = async ({
   return (
     <Flex direction='column' gap='5'>
       {comments.map((comment) => {
-        const { id, author, text, createdAt } = comment;
+        const { id, author, text, createdAt, replies } = comment;
         return (
           <Flex key={id} gap={{ initial: '2', xs: '3' }}>
             <Avatar
@@ -33,23 +38,30 @@ const CommentList: React.FC<Props> = async ({
               size={{ initial: '2', md: '3' }}
               radius='full'
             />
-            <Flex direction='column' gap='1' width='100%'>
-              <Flex justify='between' align='center' gap='2'>
-                <Text size='2' weight='bold'>
-                  {author.name}
-                </Text>
+            <Flex direction='column' gap='3' width='100%'>
+              <Flex direction='column' gap='1'>
+                <Flex justify='between' align='center' gap='2'>
+                  <Text size='2' weight='bold'>
+                    {author.name}
+                  </Text>
+                  <Text size='1' color='gray'>
+                    {createdAt.toDateString()}
+                  </Text>
+                </Flex>
 
-                <Text size='1' color='gray'>
-                  {createdAt.toDateString()}
-                </Text>
+                <CommentBadges
+                  isIssueCreator={isIssueCreator}
+                  isAssignedToIssue={isAssignedToIssue}
+                />
+
+                <Text size='2'>{text}</Text>
               </Flex>
 
-              <CommentBadges
-                isIssueCreator={isIssueCreator}
-                isAssignedToIssue={isAssignedToIssue}
+              <CommentReplies
+                replies={replies}
+                creatorId={creatorId}
+                assignedToId={assignedToId}
               />
-
-              <Text size='2'>{text}</Text>
             </Flex>
           </Flex>
         );
