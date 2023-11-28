@@ -16,7 +16,10 @@ import IssueComments from './IssueComments';
 const fetchIssue = cache((issueId: number) =>
   prisma.issue.findUnique({
     where: { id: issueId },
-    include: { comments: { include: { author: true } }, assignedToUser: true },
+    include: {
+      comments: { include: { author: true }, orderBy: { createdAt: 'desc' } },
+      assignedToUser: true,
+    },
   })
 );
 
