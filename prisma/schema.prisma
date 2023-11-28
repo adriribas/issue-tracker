@@ -92,12 +92,14 @@ model Comment {
   issueId Int
   issue   Issue @relation(fields: [issueId], references: [id])
 
-  replays         Comment[] @relation("CommentReplays")
-  replayedComment Comment?  @relation("CommentReplays", fields: [id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  replayedCommentId Int?
+  replays           Comment[] @relation("CommentReplays")
+  replayedComment   Comment?  @relation("CommentReplays", fields: [replayedCommentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
+  @@index([id])
   @@index([authorId])
   @@index([issueId])
-  @@index([id])
+  @@index([replayedCommentId])
 }
 
 enum Status {

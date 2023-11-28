@@ -29,7 +29,12 @@ export async function POST(
   }
 
   const newComment = await prisma.comment.create({
-    data: { text: body.text, authorId: session.user.id, issueId: issue.id },
+    data: {
+      text: body.text,
+      authorId: session.user.id,
+      issueId: issue.id,
+      replayedCommentId: body.replayedCommentId,
+    },
   });
 
   return NextResponse.json(newComment, { status: 201 });

@@ -17,7 +17,11 @@ const fetchIssue = cache((issueId: number) =>
   prisma.issue.findUnique({
     where: { id: issueId },
     include: {
-      comments: { include: { author: true }, orderBy: { createdAt: 'desc' } },
+      comments: {
+        where: { replayedCommentId: null },
+        include: { author: true },
+        orderBy: { createdAt: 'desc' },
+      },
       assignedToUser: true,
     },
   })
