@@ -5,6 +5,7 @@ import { Flex, Avatar, Text } from '@radix-ui/themes';
 import authOptions from '@/app/_auth/authOptions';
 import CommentBadges from './CommentBadges';
 import CommentReplies from './CommentReplies';
+import { PersonIcon } from '@radix-ui/react-icons';
 
 type Props = {
   issue: Prisma.IssueGetPayload<{
@@ -38,9 +39,14 @@ const CommentList: React.FC<Props> = async ({ issue }) => {
             <Flex direction='column' gap='3' width='100%'>
               <Flex direction='column' gap='1'>
                 <Flex justify='between' align='center' gap='2'>
-                  <Text size='2' weight='bold'>
-                    {author.name}
-                  </Text>
+                  <Flex align='center' gap='1'>
+                    <Text size='2' weight='bold'>
+                      {author.name}
+                    </Text>
+                    {author.id === session?.user.id ? (
+                      <PersonIcon className='text-indigo-700' />
+                    ) : null}
+                  </Flex>
                   <Text size='1' color='gray'>
                     {createdAt.toDateString()}
                   </Text>
