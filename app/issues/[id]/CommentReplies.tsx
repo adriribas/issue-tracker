@@ -38,10 +38,6 @@ const CommentReplies: React.FC<Props> = ({ issue, comment }) => {
     );
   }
 
-  const isIssueCreator = issue.creatorId === session?.user.id;
-  const isAssignedToIssue =
-    !!issue.assignedToUserId && issue.assignedToUserId === session?.user.id;
-
   const handleToggleCollapse = () => {
     setIsCollapsed((prevState) => !prevState);
   };
@@ -87,8 +83,8 @@ const CommentReplies: React.FC<Props> = ({ issue, comment }) => {
                 </Flex>
 
                 <CommentBadges
-                  isIssueCreator={isIssueCreator}
-                  isAssignedToIssue={isAssignedToIssue}
+                  isIssueCreator={author.id === issue.creatorId}
+                  isAssignedToIssue={author.id === issue.assignedToUserId}
                 />
                 <Text size='2'>{text}</Text>
               </Flex>

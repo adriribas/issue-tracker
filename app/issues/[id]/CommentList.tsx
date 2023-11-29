@@ -20,10 +20,6 @@ type Props = {
 const CommentList: React.FC<Props> = async ({ issue }) => {
   const session = await getServerSession(authOptions);
 
-  const isIssueCreator = issue.creatorId === session?.user.id;
-  const isAssignedToIssue =
-    !!issue.assignedToUserId && session?.user.id === issue.assignedToUserId;
-
   return (
     <Flex direction='column' gap='5'>
       {issue.comments.map((comment) => {
@@ -53,8 +49,8 @@ const CommentList: React.FC<Props> = async ({ issue }) => {
                 </Flex>
 
                 <CommentBadges
-                  isIssueCreator={isIssueCreator}
-                  isAssignedToIssue={isAssignedToIssue}
+                  isIssueCreator={author.id === issue.creatorId}
+                  isAssignedToIssue={author.id === issue.assignedToUserId}
                 />
 
                 <Text size='2'>{text}</Text>
