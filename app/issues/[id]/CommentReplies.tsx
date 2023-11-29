@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { type Issue, Prisma } from '@prisma/client';
 import { Avatar, Box, Button, Flex, Text } from '@radix-ui/themes';
-import { ChevronRightIcon } from '@radix-ui/react-icons';
+import { ChevronRightIcon, PersonIcon } from '@radix-ui/react-icons';
 import classNames from 'classnames';
 
 import CommentBadges from './CommentBadges';
@@ -77,9 +77,14 @@ const CommentReplies: React.FC<Props> = ({ issue, comment }) => {
             <Flex key={id} gap={{ initial: '2', xs: '3' }}>
               <Avatar src={author.image!} fallback='?' size='1' radius='full' />
               <Flex direction='column' gap='1' width='100%'>
-                <Text size='2' weight='bold'>
-                  {author.name}
-                </Text>
+                <Flex align='center' gap='1'>
+                  <Text size='2' weight='bold'>
+                    {author.name}
+                  </Text>
+                  {author.id === session?.user.id ? (
+                    <PersonIcon className='text-indigo-700' />
+                  ) : null}
+                </Flex>
 
                 <CommentBadges
                   isIssueCreator={isIssueCreator}
