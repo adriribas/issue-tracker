@@ -7,6 +7,7 @@ import CommentBadges from './CommentBadges';
 import CommentReplies from './CommentReplies';
 
 type Props = {
+  issueId: Issue['id'];
   comments: Array<
     Prisma.CommentGetPayload<{
       include: { author: true; replies: { include: { author: true } } };
@@ -17,6 +18,7 @@ type Props = {
 };
 
 const CommentList: React.FC<Props> = async ({
+  issueId,
   comments,
   creatorId,
   assignedToId,
@@ -58,6 +60,8 @@ const CommentList: React.FC<Props> = async ({
               </Flex>
 
               <CommentReplies
+                issueId={issueId}
+                commentId={id}
                 replies={replies}
                 creatorId={creatorId}
                 assignedToId={assignedToId}

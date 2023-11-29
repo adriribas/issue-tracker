@@ -11,7 +11,9 @@ import { ChatBubbleIcon } from '@radix-ui/react-icons';
 type Props = {
   issue: Prisma.IssueGetPayload<{
     include: {
-      comments: { include: { author: true } };
+      comments: {
+        include: { author: true; replies: { include: { author: true } } };
+      };
       assignedToUser: true;
     };
   }>;
@@ -36,6 +38,7 @@ const IssueComments: React.FC<Props> = async ({ issue }) => {
       </Box>
 
       <CommentList
+        issueId={issue.id}
         comments={issue.comments}
         creatorId={issue.creatorId}
         assignedToId={issue.assignedToUserId}
