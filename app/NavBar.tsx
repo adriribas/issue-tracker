@@ -70,7 +70,7 @@ const AuthStatus: React.FC = () => {
   const router = useRouter();
 
   if (status === 'loading') {
-    return <Skeleton width='3rem' height='1.75rem' />;
+    return <Skeleton width='2rem' height='2rem' circle />;
   }
 
   if (status === 'unauthenticated') {
