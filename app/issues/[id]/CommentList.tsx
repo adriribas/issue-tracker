@@ -1,5 +1,5 @@
 import { getServerSession } from 'next-auth';
-import { type Issue, Prisma } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 import { Flex, Avatar, Text } from '@radix-ui/themes';
 
 import authOptions from '@/app/_auth/authOptions';
@@ -7,31 +7,26 @@ import CommentBadges from './CommentBadges';
 import CommentReplies from './CommentReplies';
 
 type Props = {
-  issueId: Issue['id'];
-  comments: Array<
-    Prisma.CommentGetPayload<{
-      include: { author: true; replies: { include: { author: true } } };
-    }>
-  >;
-  creatorId: Issue['creatorId'];
-  assignedToId?: Issue['assignedToUserId'];
+  issue: Prisma.IssueGetPayload<{
+    include: {
+      comments: {
+        include: { author: true; replies: { include: { author: true } } };
+      };
+    };
+  }>;
 };
 
-const CommentList: React.FC<Props> = async ({
-  issueId,
-  comments,
-  creatorId,
-  assignedToId,
-}) => {
+const CommentList: React.FC<Props> = async ({ issue }) => {
   const session = await getServerSession(authOptions);
 
-  const isIssueCreator = creatorId === session?.user.id;
-  const isAssignedToIssue = !!assignedToId && session?.user.id === assignedToId;
+  const isIssueCreator = issue.creatorId === session?.user.id;
+  const isAssignedToIssue =
+    !!issue.assignedToUserId && session?.user.id === issue.assignedToUserId;
 
   return (
     <Flex direction='column' gap='5'>
-      {comments.map((comment) => {
-        const { id, author, text, createdAt, replies } = comment;
+      {issue.comments.map((comment) => {
+        const { id, author, text, createdAt } = comment;
         return (
           <Flex key={id} gap={{ initial: '2', xs: '3' }}>
             <Avatar
@@ -59,13 +54,7 @@ const CommentList: React.FC<Props> = async ({
                 <Text size='2'>{text}</Text>
               </Flex>
 
-              <CommentReplies
-                issueId={issueId}
-                commentId={id}
-                replies={replies}
-                creatorId={creatorId}
-                assignedToId={assignedToId}
-              />
+              <CommentReplies issue={issue} comment={comment} />
             </Flex>
           </Flex>
         );

@@ -1,12 +1,12 @@
 import { getServerSession } from 'next-auth';
 import { Prisma } from '@prisma/client';
 import { Box, Flex, Heading } from '@radix-ui/themes';
+import { ChatBubbleIcon } from '@radix-ui/react-icons';
 
 import authOptions from '@/app/_auth/authOptions';
 import NewComment from './NewComment';
 import CommentList from './CommentList';
 import SignInToComment from './SignInToComment';
-import { ChatBubbleIcon } from '@radix-ui/react-icons';
 
 type Props = {
   issue: Prisma.IssueGetPayload<{
@@ -37,12 +37,7 @@ const IssueComments: React.FC<Props> = async ({ issue }) => {
         {logged ? <NewComment issueId={issue.id} /> : <SignInToComment />}
       </Box>
 
-      <CommentList
-        issueId={issue.id}
-        comments={issue.comments}
-        creatorId={issue.creatorId}
-        assignedToId={issue.assignedToUserId}
-      />
+      <CommentList issue={issue} />
     </Box>
   );
 };

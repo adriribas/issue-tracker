@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useSession } from 'next-auth/react';
-import { type Issue, Prisma, type Comment } from '@prisma/client';
+import { type Issue, Prisma } from '@prisma/client';
 import { Avatar, Box, Button, Flex, Text } from '@radix-ui/themes';
 import { ChevronRightIcon } from '@radix-ui/react-icons';
 import classNames from 'classnames';
@@ -11,25 +11,18 @@ import CommentBadges from './CommentBadges';
 import NewReply from './NewReply';
 
 type Props = {
-  issueId: Issue['id'];
-  commentId: Comment['id'];
-  replies: Array<Prisma.CommentGetPayload<{ include: { author: true } }>>;
-  creatorId: Issue['creatorId'];
-  assignedToId?: Issue['assignedToUserId'];
+  issue: Issue;
+  comment: Prisma.CommentGetPayload<{
+    include: { replies: { include: { author: true } } };
+  }>;
 };
 
-const CommentReplies: React.FC<Props> = ({
-  issueId,
-  commentId,
-  replies,
-  creatorId,
-  assignedToId,
-}) => {
+const CommentReplies: React.FC<Props> = ({ issue, comment }) => {
   const [isCollapsed, setIsCollapsed] = useState(true);
 
   const { data: session } = useSession();
 
-  if (replies.length === 0) {
+  if (comment.replies.length === 0) {
     const handleReplay = () => {
       setIsCollapsed(false);
     };
@@ -37,16 +30,17 @@ const CommentReplies: React.FC<Props> = ({
     return (
       <Box>
         <NewReply
-          issueId={issueId}
-          commentId={commentId}
+          issueId={issue.id}
+          commentId={comment.id}
           onReply={handleReplay}
         />
       </Box>
     );
   }
 
-  const isIssueCreator = creatorId === session?.user.id;
-  const isAssignedToIssue = !!assignedToId && assignedToId === session?.user.id;
+  const isIssueCreator = issue.creatorId === session?.user.id;
+  const isAssignedToIssue =
+    !!issue.assignedToUserId && issue.assignedToUserId === session?.user.id;
 
   const handleToggleCollapse = () => {
     setIsCollapsed((prevState) => !prevState);
@@ -56,8 +50,8 @@ const CommentReplies: React.FC<Props> = ({
     <Flex direction='column' gap='2' align='start'>
       <Button variant='ghost' onClick={handleToggleCollapse}>
         <Text weight='medium'>
-          {isCollapsed ? 'Show' : 'Hide'} {replies.length} repl
-          {replies.length === 1 ? 'y' : 'ies'}
+          {isCollapsed ? 'Show' : 'Hide'} {comment.replies.length} repl
+          {comment.replies.length === 1 ? 'y' : 'ies'}
         </Text>
         <ChevronRightIcon
           className={classNames({
@@ -77,7 +71,7 @@ const CommentReplies: React.FC<Props> = ({
           'max-h-0 opacity-0 overflow-hidden': isCollapsed,
           'max-h-screen opacity-100': !isCollapsed,
         })}>
-        {replies.map((reply) => {
+        {comment.replies.map((reply) => {
           const { id, text, author } = reply;
           return (
             <Flex key={id} gap={{ initial: '2', xs: '3' }}>
@@ -97,7 +91,7 @@ const CommentReplies: React.FC<Props> = ({
           );
         })}
 
-        <NewReply issueId={issueId} commentId={commentId} />
+        <NewReply issueId={issue.id} commentId={comment.id} />
       </Flex>
     </Flex>
   );
