@@ -18,7 +18,7 @@ type Props = {
 };
 
 const NewReply: React.FC<Props> = ({ issueId, commentId, onReply }) => {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const router = useRouter();
 
   const [isReplaying, setIsReplaying] = useState(false);
@@ -26,6 +26,10 @@ const NewReply: React.FC<Props> = ({ issueId, commentId, onReply }) => {
   const [isPublishing, setIsPublishing] = useState(false);
 
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
+
+  if (status !== 'authenticated') {
+    return null;
+  }
 
   const resetStates = () => {
     setIsReplaying(false);

@@ -21,7 +21,7 @@ type Props = {
 };
 
 const NewComment: React.FC<Props> = ({ issueId }) => {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const router = useRouter();
 
   const [writeMode, setWriteMode] = useState(false);
